@@ -1,16 +1,10 @@
 import flet as ft
-from controllers.main_controller import MainController
+from controllers.auth_controller import AuthController
 
 def main(page: ft.Page):
-    page.title = "Mi Aplicación de Trading"
-    page.vertical_alignment = "center"
-    page.horizontal_alignment = "center"
-    controller = MainController(page)
-    
-    page.on_keyboard_event = controller.handle_key_down
-    controller.show_login_view()
+    page.title = "Login App"
+    auth_controller = AuthController(page)
+    auth_controller.login_view.display()
 
 ft.app(target=main)
-
-
 

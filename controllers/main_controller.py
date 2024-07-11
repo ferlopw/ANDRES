@@ -1,44 +1,36 @@
-import flet as ft
-from views.login_view import LoginView
-from views.home_view import HomeView
-from views.automatic_trading_view import AutomaticTradingView
-from views.signal_trading_view import SignalTradingView
-from views.generate_signals_view import GenerateSignalsView
-from views.load_signals_view import LoadSignalsView
-from views.settings_view import SettingsView
+from controllers.base_controller import BaseController
+from views.main_view import MainView
+from views.operador_automatico_view import OperadorAutomaticoView
+from views.operar_senales_view import OperarSenalesView
+from views.generar_senales_view import GenerateSignalsView
+from views.cargar_senales_view import CargarSenalesView
+from views.configuracion_view import ConfiguracionView
 
-class MainController:
-    def __init__(self, page: ft.Page):
-        self.page = page
-        self.login_view = LoginView(self.page, self.show_home_view)
+class MainController(BaseController):
+    def __init__(self, page):
+        super().__init__(page)
+        self.main_view = MainView(page, self.navigate)
+        self.operador_automatico_view = OperadorAutomaticoView(page, self.navigate)
+        self.operar_senales_view = OperarSenalesView(page, self.navigate)
+        self.generar_senales_view = GenerateSignalsView(page, self.navigate)
+        self.cargar_senales_view = CargarSenalesView(page, self.navigate)
+        self.configuracion_view = ConfiguracionView(page, self.navigate)
         
-
-    def handle_key_down(self, e: ft.KeyboardEvent):
-        if e.key == "Enter" and self.login_view:
-            self.login_view.authenticate(e)
-
-    def show_login_view(self):
-        self.page.views.clear()
-        self.page.views.append(ft.View('/login', [self.login_view.content]))
-        self.page.update()
-
-    def show_home_view(self):
-        home_view = HomeView(self.page, self)
-        self.page.views.clear()
-        self.page.views.append(ft.View('/home', [home_view.content]))
-        self.page.update()
-
-    def show_automatic_trading_view(self):
-        automatic_trading_view = AutomaticTradingView(self.page)
-        self.page.views.clear()
-        self.page.views.append(ft.View('/automatic_trading', [automatic_trading_view.content]))
-        self.page.update()
-
-    def show_generate_signals_view(self):
-        generate_signals_view = GenerateSignalsView(self.page)
-        self.page.views.clear()
-        self.page.views.append(ft.View('/generate_signals', [generate_signals_view.content]))
-        self.page.update()
-
-
-   
+    def navigate(self, view_name):
+        print(f"Navegando a la vista: {view_name}")
+        if view_name == "inicio":
+            self.main_view.display()
+        elif view_name == "operar_automatico":
+            self.operador_automatico_view.display()
+        elif view_name == "operar_senales":
+            self.operar_senales_view.display()
+        elif view_name == "generar_senales":
+            self.generar_senales_view.display()
+        elif view_name == "cargar_senales":
+            self.cargar_senales_view.display()
+        elif view_name == "configuracion":
+            self.configuracion_view.display()
+        elif view_name == "login":
+            from controllers.auth_controller import AuthController
+            auth_controller = AuthController(self.page)
+            auth_controller.login_view.display()
