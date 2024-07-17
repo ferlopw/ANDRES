@@ -5,9 +5,8 @@ class BaseView:
         self.page = page
 
     def clear_and_add(self, controls):
-        self.page.controls.clear()
-        self.page.add(ft.Column(controls, alignment=ft.MainAxisAlignment.CENTER))
-        self.page.update()
+        self.page.clean()
+        self.page.add(*controls)
 
 
 

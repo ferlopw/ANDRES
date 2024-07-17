@@ -16,4 +16,16 @@ class LoginView(BaseView):
         password_input = ft.TextField(label="Contraseña", password=True, can_reveal_password=True, width=300)
         login_button = ft.ElevatedButton(text="Iniciar Sesión", on_click=handle_login)
         
-        self.clear_and_add([username_input, password_input, login_button])
+        # Contenedor Column para centrar verticalmente
+        column = ft.Column(
+            [username_input, password_input, login_button],
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,  # Centrar horizontalmente
+        )
+
+        # Contenedor Row para centrar horizontalmente
+        row = ft.Row(
+            [column],
+            alignment=ft.MainAxisAlignment.CENTER,
+        )
+
+        self.clear_and_add([row])   # Agregar el Row directamente
